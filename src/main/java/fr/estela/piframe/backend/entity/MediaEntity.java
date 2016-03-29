@@ -1,0 +1,91 @@
+package fr.estela.piframe.backend.entity;
+
+import java.util.Date;
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
+import fr.estela.piframe.backend.util.MediaType;
+
+@Entity
+@Table(name="media", indexes = {
+	@Index(name="media_remoteId_index", columnList="remoteId", unique=true)
+})
+public class MediaEntity {
+
+	@Id
+	@Type(type="pg-uuid")
+	//@GeneratedValue(generator = "system-uuid")
+	//@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	private UUID id;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	private ProviderEntity provider;
+	
+	@Enumerated(EnumType.STRING)
+	private MediaType mediaType;
+	
+	private String remoteId;
+
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private MediaContentEntity remoteContent;
+	
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private MediaContentEntity localContent;
+	
+	private Date lastUpdated;
+	
+	public UUID getId() {
+		return id;
+	}
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	public ProviderEntity getProvider() {
+		return provider;
+	}
+	public void setProvider(ProviderEntity provider) {
+		this.provider = provider;
+	}
+	public MediaType getMediaType() {
+		return mediaType;
+	}
+	public void setMediaType(MediaType mediaType) {
+		this.mediaType = mediaType;
+	}
+	public String getRemoteId() {
+		return remoteId;
+	}
+	public void setRemoteId(String remoteId) {
+		this.remoteId = remoteId;
+	}
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+	public MediaContentEntity getRemoteContent() {
+		return remoteContent;
+	}
+	public void setRemoteContent(MediaContentEntity remoteContent) {
+		this.remoteContent = remoteContent;
+	}
+	public MediaContentEntity getLocalContent() {
+		return localContent;
+	}
+	public void setLocalContent(MediaContentEntity localContent) {
+		this.localContent = localContent;
+	}
+}
