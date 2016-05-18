@@ -11,8 +11,8 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/piframe" />
-		<property name="username" value="postgres" />
-		<property name="password" value="TODO" />
+		<property name="username" value="piframe" />
+		<property name="password" value="piframe" />
 	</bean>
 
 	<bean id="entityManagerFactory"
