@@ -99,7 +99,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			return medias;
 		}
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
 		
 		for (Iterator<JsonNode> i1 = albumImageNode.elements(); i1.hasNext();) {
 			
@@ -110,6 +110,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			String type = fileNode.get("Format").textValue().trim().toLowerCase();
 			int remoteWidth = fileNode.get("OriginalWidth").intValue();
 			int remoteHeight = fileNode.get("OriginalHeight").intValue();
+			Date originallyCreated = dateFormat.parse(fileNode.get("Date").textValue());
 			
 			MediaEntity mediaEntity = mediaRepository.findByRemoteId(remoteId);
 			if (mediaEntity == null) mediaEntity = new MediaEntity();
@@ -175,6 +176,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			    
 			    if (mediaEntity.getRemoteId() == null) mediaEntity.setRemoteId(remoteId);
 				mediaEntity.setMediaType(getMediaTypeFromJsonValue(type));
+				mediaEntity.setOriginallyCreated(originallyCreated);
 				mediaEntity.setLastUpdated(lastUpdated);
 			    
 				medias.add(mediaEntity);

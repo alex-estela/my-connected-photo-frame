@@ -5,6 +5,7 @@ public class MediaResource {
 	private int localWidth;
 	private int localHeight;
 	private String localContentURI;
+	private String originallyCreated;
 	
 	public int getLocalWidth() {
 		return localWidth;
@@ -23,5 +24,11 @@ public class MediaResource {
 	}
 	public void setLocalContentURI(String localContentURI) {
 		this.localContentURI = localContentURI;
+	}
+	public String getOriginallyCreated() {
+		return originallyCreated;
+	}
+	public void setOriginallyCreated(String originallyCreated) {
+		this.originallyCreated = originallyCreated;
 	}
 }

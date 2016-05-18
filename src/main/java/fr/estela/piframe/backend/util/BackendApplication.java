@@ -45,10 +45,10 @@ public class BackendApplication extends SpringBootServletInitializer {
 	    
 	    if (providerEntities.size() == 0) {
 		    
-			String consumerKey = "TODO";
-			String consumerSecret = "TODO";
-		    String accessToken = "TODO";
-		    String accessTokenSecret = "TODO";
+			String consumerKey = "QUuIhIFnnuCoMfvxa900joAIQY377u8F";
+			String consumerSecret = "a60bda59e1d111fffdf9a4f287334897";
+		    String accessToken = "a63b6e0fdf9f6e7fc12583020a4924b0";
+		    String accessTokenSecret = "f306746932a1ef7a209211d793353f59e87b3c441c751db041fd266fd8bc3680";
 		    
 		    SmugmugProviderEntity smugmugProviderEntity = new SmugmugProviderEntity();
 		    smugmugProviderEntity.setName("Estela Smugmug account");

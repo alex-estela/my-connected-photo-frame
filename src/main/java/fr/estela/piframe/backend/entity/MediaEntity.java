@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -43,7 +42,8 @@ public class MediaEntity {
 	
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private MediaContentEntity localContent;
-	
+
+	private Date originallyCreated;
 	private Date lastUpdated;
 	
 	public UUID getId() {
@@ -69,6 +69,12 @@ public class MediaEntity {
 	}
 	public void setRemoteId(String remoteId) {
 		this.remoteId = remoteId;
+	}
+	public Date getOriginallyCreated() {
+		return originallyCreated;
+	}
+	public void setOriginallyCreated(Date originallyCreated) {
+		this.originallyCreated = originallyCreated;
 	}
 	public Date getLastUpdated() {
 		return lastUpdated;

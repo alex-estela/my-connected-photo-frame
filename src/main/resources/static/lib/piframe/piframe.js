@@ -35,6 +35,7 @@ var PIFRAME = {
 					var media = response[m];
 					var width = media.localWidth;
 					var height = media.localHeight;
+					var creationDate = media.originallyCreated;
 					var url = PIFRAME.backendCtxRoot + media.localContentURI;
 					
 					var finalHeight = $(window).height();
@@ -50,7 +51,8 @@ var PIFRAME = {
 					var html = "<img class='mediaImg' width='" + Math.round(finalWidth) + "px' height='" + Math.round(finalHeight) + "px'/>";
 					$(".mediaContainer").append(html);
 					
-					$(".mediaImg").last().attr("data-src", url); 
+					$(".mediaImg").last().attr("data-src", url);
+					$(".mediaImg").last().attr("creation-date", creationDate); 
 					if (PIFRAME.mediaCount == 0) PIFRAME.loadMedia(0);
 		
 					PIFRAME.mediaCount++;
@@ -73,7 +75,15 @@ var PIFRAME = {
 						var current = $(".mediaContainer").data("owlCarousel") ?
 							$(".mediaContainer").data("owlCarousel").owl.currentItem : 0;
 						if (PIFRAME.debugMode) console.log("Displaying " + (current+1) + "/" + total);
-													
+						
+						$(".mediaImg").eq(current).css("visibility", "visible");
+						$(".mediaTooltip").html($(".mediaImg").eq(current).attr("creation-date"));
+						console.log($(".mediaImg").eq(current).attr("creation-date"));
+						
+						if (current > 0) {
+							$(".mediaImg").eq(current-1).css("visibility", "hidden");
+						}
+						
 						if (current+1 < total) {
 							PIFRAME.loadMedia(current+1);
 						}

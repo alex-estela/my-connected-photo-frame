@@ -1,5 +1,6 @@
 package fr.estela.piframe.backend.api;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,7 @@ public class MediaAPI {
 		List<MediaEntity> mediaEntities = mediaRepository.findAll();
 		
 		List<MediaResource> mediaResources = new ArrayList<MediaResource>();
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ssZ");
 		
 		for (MediaEntity mediaEntity : mediaEntities) {
 			
@@ -52,6 +54,7 @@ public class MediaAPI {
 			mediaResource.setLocalContentURI(uri);
 			mediaResource.setLocalWidth(mediaEntity.getLocalContent().getWidth());
 			mediaResource.setLocalHeight(mediaEntity.getLocalContent().getHeight());
+			mediaResource.setOriginallyCreated(dateFormatter.format(mediaEntity.getOriginallyCreated()));
 			
 			mediaResources.add(mediaResource);
 		}
