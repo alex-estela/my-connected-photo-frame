@@ -1,0 +1,29 @@
+# mode (development | staging | production).  Default is development, and this value will be overridden by a system property
+# -Denvironment=production for example
+environment: development
+
+swaggerUrl: swagger.yaml
+
+controllerPackage: fr.estela.piframe.backend.api.v1.controller
+
+modelPackage: fr.estela.piframe.backend.api.v1.model
+ 
+modelMappings:
+  Media: fr.estela.piframe.backend.api.v1.model.Media
+  Provider: fr.estela.piframe.backend.api.v1.model.Provider
+  SmugmugProvider: fr.estela.piframe.backend.api.v1.model.SmugmugProvider
+
+# validatePayloads: true
+
+# exceptionMapper: io.swagger.inflector.utils.DefaultExceptionMapper
+
+# controllerFactory: io.swagger.inflector.config.DefaultControllerFactory
+# fr.estela.piframe.backend.util.SpringControllerFactory
+
+# HTTP response code when required parameters are missing
+invalidRequestCode: 400
+
+entityProcessors:
+  - json
+  - xml
+  - yaml

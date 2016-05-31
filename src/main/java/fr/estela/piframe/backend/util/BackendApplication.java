@@ -1,15 +1,19 @@
 package fr.estela.piframe.backend.util;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
@@ -19,28 +23,47 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import fr.estela.piframe.backend.entity.ProviderEntity;
 import fr.estela.piframe.backend.repository.ProviderRepository;
 import fr.estela.piframe.backend.sourcepack.smugmug.SmugmugProviderEntity;
+import io.swagger.inflector.utils.CORSFilter;
 
 @SpringBootApplication
 @EnableTransactionManagement
 @ComponentScan("fr.estela.piframe.backend")
 @EnableJpaRepositories("fr.estela.piframe.backend")
 @EntityScan("fr.estela.piframe.backend")
-@ImportResource({ "classpath:spring-mvc.xml", "classpath:spring-jpa.xml" })
+@ImportResource({ "classpath:spring-config.xml" })
 @PropertySource("classpath:local.properties")
-public class BackendApplication extends SpringBootServletInitializer {
+public class BackendApplication {
+
+	@Bean
+	public ServletRegistrationBean getSwaggerInflectorServletRegistration() {
+		ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer());
+		registration.setName("swagger-inflector");
+		registration.setLoadOnStartup(1);
+		Map<String, String> initParameters = new HashMap<String, String>();
+		initParameters.put("javax.ws.rs.Application", "io.swagger.inflector.SwaggerInflector");
+		registration.setInitParameters(initParameters);
+		registration.addUrlMappings("/backend/*");
+		return registration;
+	}
 	
-	@Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(BackendApplication.class);
-    }
+	@Bean
+	public FilterRegistrationBean getSwaggerCORSFilterRegistration() {
+		FilterRegistrationBean registration = new FilterRegistrationBean(new CORSFilter());
+		registration.setName("CORSFilter");
+		registration.setFilter(new CORSFilter());
+		registration.addUrlPatterns("/backend/*");
+		return registration;
+	}	
 
 	public static void main(String[] args) throws Exception {
 		
 		// TODO clean /piframe/tmp folder at startup
+
+		ConfigurableApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);	
+
+		if (true) return;
 		
-		ApplicationContext springContext = SpringApplication.run(BackendApplication.class, args);		
-	    
-	    ProviderRepository providerRepository = springContext.getBean(ProviderRepository.class);
+	    ProviderRepository providerRepository = applicationContext.getBean(ProviderRepository.class);
 	    List<ProviderEntity> providerEntities = providerRepository.findAll();
 	    
 	    if (providerEntities.size() == 0) {
@@ -62,7 +85,7 @@ public class BackendApplication extends SpringBootServletInitializer {
 		    providerEntities.add(smugmugProviderEntity);
 	    }
 	    
-		CamelContext camelContext = springContext.getBean(CamelContext.class);
+		CamelContext camelContext = applicationContext.getBean(CamelContext.class);
 		camelContext.getShutdownStrategy().setTimeout(10);
 
 		for (final ProviderEntity providerEntity : providerEntities) {

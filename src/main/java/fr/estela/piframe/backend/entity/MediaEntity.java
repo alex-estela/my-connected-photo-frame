@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import fr.estela.piframe.backend.util.MediaType;
+import fr.estela.piframe.backend.api.v1.model.Media.MediaTypeEnum;
 
 @Entity
 @Table(name="media", indexes = {
@@ -33,7 +33,7 @@ public class MediaEntity {
 	private ProviderEntity provider;
 	
 	@Enumerated(EnumType.STRING)
-	private MediaType mediaType;
+	private MediaTypeEnum mediaType;
 	
 	private String remoteId;
 
@@ -58,10 +58,10 @@ public class MediaEntity {
 	public void setProvider(ProviderEntity provider) {
 		this.provider = provider;
 	}
-	public MediaType getMediaType() {
+	public MediaTypeEnum getMediaType() {
 		return mediaType;
 	}
-	public void setMediaType(MediaType mediaType) {
+	public void setMediaType(MediaTypeEnum mediaType) {
 		this.mediaType = mediaType;
 	}
 	public String getRemoteId() {

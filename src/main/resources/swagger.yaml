@@ -1,0 +1,143 @@
+swagger: '2.0'
+info:
+  title: Piframe API
+  version: 0.0.4
+  description: API for the Piframe project.
+basePath: /api/v1
+
+paths:
+  /tools/ping:
+    get:
+      tags:
+        - Tooling
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            type: string
+  /providers:
+    get:
+      tags:
+        - Provider
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Provider'
+    post:
+      tags:
+        - Provider
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Provider'
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Provider'
+  /medias:
+    get:
+      tags:
+        - Media
+      parameters:
+        - in: query
+          name: random
+          type: boolean
+          required: false
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Media'
+  '/medias/{mediaId}':
+    get:
+      tags:
+        - Media
+      parameters:
+        - in: path
+          name: mediaId
+          type: string
+          required: true
+      produces:
+        - application/json
+        - image/jpeg
+        - image/gif
+        - image/png
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Media'
+definitions:
+  Provider:
+    type: object
+    description: Generic parent provider resource.
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Locally unique identifier.
+      providerModel:
+        type: string
+        description: Type discriminator.
+        enum:
+          - SmugmugProvider
+      name:
+        type: string
+        description: Name of the provider resource.
+      consumerKey:
+        type: string
+        description: Consumer Key for the provider API.
+      consumerSecret:
+        type: string
+        description: Consumer Secret for the provider API.
+      accessToken:
+        type: string
+        description: Access Token for the provider API.
+      accessTokenSecret:
+        type: string
+        description: Access Token Secret for the provider API.
+    discriminator: providerModel
+    required:
+      - providerModel
+      - name
+  SmugmugProvider:
+    allOf:
+      - $ref: '#/definitions/Provider'
+      - type: object
+        description: Smugmug provider resource.
+        properties:
+          album:
+            type: string
+            description: Album of the Smugmug account.
+  Media:
+    type: object
+    description: 'Media resource (image, video, etc).'
+    properties:
+      id:
+        type: string
+        description: Universally unique identifier (UUID).
+      width:
+        type: integer
+        description: Media pixel width (after resize).
+      height:
+        type: integer
+        description: Media pixel height (after resize).
+      mediaType:
+        type: string
+        description: Media type (gif, jpg, png, etc).
+        enum:
+          - gif
+          - jpg
+          - png
+      created:
+        type: string
+        format: date-time
+        description: Original date of creation.

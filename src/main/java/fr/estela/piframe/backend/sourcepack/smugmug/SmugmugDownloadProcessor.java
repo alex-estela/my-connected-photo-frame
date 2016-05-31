@@ -26,6 +26,7 @@ import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 
+import fr.estela.piframe.backend.api.v1.model.Media.MediaTypeEnum;
 import fr.estela.piframe.backend.entity.MediaContentEntity;
 import fr.estela.piframe.backend.entity.MediaContentStreamEntity;
 import fr.estela.piframe.backend.entity.MediaEntity;
@@ -123,8 +124,8 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			    InputStream contentStream = contentResponse.getContent();
 			    
 			    UUID mediaId = UUID.randomUUID();
-				String originalPath = System.getProperty("user.home") + "/piframe/tmp/" + mediaId + "-original";
-				String convertedPath = System.getProperty("user.home") + "/piframe/tmp/" + mediaId + "-converted";
+				String originalPath = System.getProperty("user.home").replace("\\", "/") + "/piframe/tmp/" + mediaId + "-original";
+				String convertedPath = System.getProperty("user.home").replace("\\", "/") + "/piframe/tmp/" + mediaId + "-converted";
 				Path originalPathObj = Paths.get(originalPath);
 				Path convertedPathObj = Paths.get(convertedPath);
 
@@ -132,7 +133,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 				Files.copy(contentStream, originalPathObj);
 			    contentStream.close();
 			    
-				String cmd = "imagemagick-convert -resize x800 " + originalPath + " " + convertedPath;		
+				String cmd = "convert-piframe -resize x800 " + originalPath + " " + convertedPath;		
 				logger.debug("> converting to " + convertedPath);
 				logger.debug(cmd);
 				
@@ -201,8 +202,8 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 		return medias;
 	}
 	
-	private MediaType getMediaTypeFromJsonValue(String value) {
-		if (value.equals("jpg") || value.equals("jpeg")) return MediaType.JPG;
+	private MediaTypeEnum getMediaTypeFromJsonValue(String value) {
+		if (value.equals("jpg") || value.equals("jpeg")) return MediaTypeEnum.JPG;
 		logger.warn("Unknown media content type: " + value);
 		return null;
 	}

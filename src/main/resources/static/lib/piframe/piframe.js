@@ -7,8 +7,9 @@ var PIFRAME = {
 
 	// params
 	backendCtxRoot: "http://localhost:8080",
-	getMediasURI: "/medias?random=true",
-	pingURI: "/ping",
+	getMediasURI: "/backend/api/v1/medias",
+	getMediasRandomAttr: "?random=true",
+	pingURI: "/backend/api/v1/tools/ping",
 	loadingMsg: "CHARGEMENT EN COURS",
 	errorMsg: "ERREUR DE CHARGEMENT",
 	mediaDisplayTime: 8000,
@@ -24,7 +25,7 @@ var PIFRAME = {
 	load: function() {
 		$.ajax({
 			type : "GET",
-			url : PIFRAME.backendCtxRoot + PIFRAME.getMediasURI,
+			url : PIFRAME.backendCtxRoot + PIFRAME.getMediasURI + PIFRAME.getMediasRandomAttr,
 			dataType : "json",
 			success : function(response) {
 				
@@ -33,10 +34,11 @@ var PIFRAME = {
 				
 				for (var m in response) {
 					var media = response[m];
-					var width = media.localWidth;
-					var height = media.localHeight;
-					var creationDate = media.originallyCreated;
-					var url = PIFRAME.backendCtxRoot + media.localContentURI;
+					var id = media.id;
+					var width = media.width;
+					var height = media.height;
+					var creationDate = media.created;
+					var url = PIFRAME.backendCtxRoot + PIFRAME.getMediasURI + "/" + id;
 					
 					var finalHeight = $(window).height();
 					if (height < finalHeight) finalHeight = height;
