@@ -1,4 +1,4 @@
-package fr.estela.piframe.backend.sourcepack.smugmug;
+package fr.estela.piframe.backend.source.smugmug;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

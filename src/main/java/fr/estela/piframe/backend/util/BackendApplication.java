@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import fr.estela.piframe.backend.entity.ProviderEntity;
 import fr.estela.piframe.backend.repository.ProviderRepository;
-import fr.estela.piframe.backend.sourcepack.smugmug.SmugmugProviderEntity;
+import fr.estela.piframe.backend.source.smugmug.SmugmugProviderEntity;
 import io.swagger.inflector.utils.CORSFilter;
 
 @SpringBootApplication
@@ -60,8 +60,6 @@ public class BackendApplication {
 		// TODO clean /piframe/tmp folder at startup
 
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(BackendApplication.class, args);	
-
-		if (true) return;
 		
 	    ProviderRepository providerRepository = applicationContext.getBean(ProviderRepository.class);
 	    List<ProviderEntity> providerEntities = providerRepository.findAll();

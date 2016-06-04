@@ -7,8 +7,12 @@ sudo apt-get update
 
 sudo apt-get install -y apt-transport-https tint2 matchbox-window-manager postgresql imagemagick youtube-dl
 
-ginstall-ytdl
+git clone git://github.com/rg3/youtube-dl
+cd /usr/bin
+sudo mv youtube-dl youtube-dl-old (only if you had it installed already!)
+sudo ln -s ~/youtube-dl/youtube_dl/__main__.py youtube-dl
 
+cd ~
 wget http://steinerdatenbank.de/software/kweb-1.7.0.tar.gz
 tar -xzf kweb-1.7.0.tar.gz
 cd kweb-1.7.0
@@ -21,13 +25,22 @@ xset s off
 kweb -KAHZJEobhrp+-zgtjnediwxyqcf "file:///home/pi/piframe/static/index.html" ' >> /home/pi/kiosk
 chmod +x /home/pi/kiosk
 
-sudo vi /etc/xdg/lxsession/LXDE-pi/autostart
+sudo sed -i '/fi/asu -l pi -c "xinit ./kiosk"' /etc/rc.local
 
-sudo sed -i '/exit 0/isu -l pi -c "xinit ./kiosk"' /etc/rc.local
+
+-----------
+# Config spéciale HDML PI 9
+
+sudo vi /etc/X11/Xwrapper.config
+allowed_users=anybody
+
+-----------
+# Config spéciale HDML PI 7
 
 sudo sed -i '/README/alcd_rotate=2' /boot/config.txt
 
-# sudo raspi-config et mettre le demarrage console sans login ?
+-----------
+
 
 sudo echo '#! /bin/sh
 

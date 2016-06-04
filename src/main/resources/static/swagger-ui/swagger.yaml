@@ -40,6 +40,38 @@ paths:
           description: Successful operation.
           schema:
             $ref: '#/definitions/Provider'
+  '/providers/{providerId}':
+    put:
+      tags:
+        - Provider
+      parameters:
+        - in: path
+          name: providerId
+          type: integer
+          format: int64
+          required: true
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Provider'
+      responses:
+        '200':
+          description: Successful operation.
+          schema:
+            $ref: '#/definitions/Provider'
+    delete:
+      tags:
+        - Provider
+      parameters:
+        - in: path
+          name: providerId
+          type: integer
+          format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful operation.
   /medias:
     get:
       tags:

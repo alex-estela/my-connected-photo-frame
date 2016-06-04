@@ -1,4 +1,4 @@
-package fr.estela.piframe.backend.sourcepack.smugmug;
+package fr.estela.piframe.backend.source.smugmug;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -35,7 +35,6 @@ import fr.estela.piframe.backend.repository.MediaRepository;
 import fr.estela.piframe.backend.route.AbstractDownloadProcessor;
 import fr.estela.piframe.backend.route.PaginatedDownloadConfig;
 import fr.estela.piframe.backend.util.JsonUtils;
-import fr.estela.piframe.backend.util.MediaType;
 import fr.estela.piframe.backend.util.StreamGobbler;
 
 @Component
