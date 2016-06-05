@@ -37,10 +37,12 @@ sudo sed -i '/README/alcd_rotate=2' /boot/config.txt
 wget http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
 sudo tar -xzvf apache-maven-3.3.9-bin.tar.gz
 
-echo 'export M2_HOME="/home/pi/apache-maven-3.3.9"
-export PATH="$PATH:$M2_HOME/bin" ' >> /home/pi/maven.sh
-source /home/pi/maven.sh
+echo 'export M2_HOME=/home/pi/apache-maven-3.3.9
+export PATH=$PATH:$M2_HOME/bin ' >> /home/pi/maven.sh
 sudo mv /home/pi/maven.sh /etc/profile.d/maven.sh
+
+export M2_HOME=/home/pi/apache-maven-3.3.9
+export PATH=$PATH:$M2_HOME/bin
 
 
 mkdir /home/pi/piframe/tmp
