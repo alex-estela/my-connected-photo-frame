@@ -25,6 +25,11 @@
 		    <artifactId>jersey-server</artifactId>
 		    <version>2.23</version>
 		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
@@ -72,12 +77,6 @@
             <artifactId>swagger-inflector</artifactId>
             <version>1.0.5</version>
         </dependency>
-<!-- http://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
-<dependency>
-    <groupId>org.aspectj</groupId>
-    <artifactId>aspectjweaver</artifactId>
-    <version>1.8.9</version>
-</dependency>
 
 	</dependencies>
 	

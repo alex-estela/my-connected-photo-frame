@@ -72,8 +72,9 @@ public class MediaController extends AbstractController {
     		response.setContentType(MediaType.APPLICATION_JSON_TYPE);
     		response.setEntity(media);
     	}
-    	else if (requestMediaType.equals("webp") || requestMediaType.equals("jpeg") 
-    		|| requestMediaType.equals("gif") || requestMediaType.equals("png")) {
+    	//else if (requestMediaType.equals("webp") || requestMediaType.equals("jpeg") 
+    	//	|| requestMediaType.equals("gif") || requestMediaType.equals("png")) {
+    	else {
     		
     		byte[] bytes = mediaEntity.getLocalContent().getContentStream().getBytes();
     		
@@ -85,7 +86,7 @@ public class MediaController extends AbstractController {
     		response.setContentType(new MediaType("image", requestMediaType));
     		response.setHeaders(headers);
     	}
-    	else throw newApiException("Invalid media type: " + requestMediaType);
+    	//else throw newApiException("Invalid media type: " + requestMediaType);
     	
 		return response;
     }
