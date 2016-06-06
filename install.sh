@@ -17,7 +17,7 @@ sudo tar -xzvf apache-maven-3.3.9-bin.tar.gz
 echo 'export M2_HOME=/home/pi/apache-maven-3.3.9
 export PATH=$PATH:$M2_HOME/bin ' >> /home/pi/maven.sh
 sudo mv /home/pi/maven.sh /etc/profile.d/maven.sh
-source /etc/profile.d/maven.sh
+. /etc/profile.d/maven.sh
 
 git clone git://github.com/rg3/youtube-dl
 sudo ln -s ~/youtube-dl/youtube_dl/__main__.py /usr/bin/youtube-dl
