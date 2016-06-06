@@ -40,13 +40,11 @@ sudo tar -xzvf apache-maven-3.3.9-bin.tar.gz
 echo 'export M2_HOME=/home/pi/apache-maven-3.3.9
 export PATH=$PATH:$M2_HOME/bin ' >> /home/pi/maven.sh
 sudo mv /home/pi/maven.sh /etc/profile.d/maven.sh
-
-export M2_HOME=/home/pi/apache-maven-3.3.9
-export PATH=$PATH:$M2_HOME/bin
+. /etc/profile.d/maven.sh
 
 
-mkdir /home/pi/piframe/tmp
-cd piframe
+cd /home/pi/piframe
+mkdir tmp
 mvn clean install spring-boot:repackage
 
 sudo ln -s /usr/bin/convert /usr/bin/convert-piframe
