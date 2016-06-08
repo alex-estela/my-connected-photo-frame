@@ -31,10 +31,10 @@ echo 'matchbox-window-manager -use_titlebar no -use_cursor no &
 xset s noblank
 xset -dpms
 xset s off
-kweb -KAHZJEobhrp+-zgtjnediwxyqcf "file:///home/pi/piframe/target/classes/static/index.html" ' >> /home/pi/kiosk
+kweb3 -KAHZJEobhrp+-zgtjnediwxyqcf "file:///home/pi/piframe/target/classes/static/index.html" ' >> /home/pi/kiosk
 chmod +x /home/pi/kiosk
 
-sudo sed -i '/fi/asu -l pi -c "xinit /home/pi/kiosk"' /etc/rc.local
+sudo sed -i '/fi/axinit /home/pi/kiosk' /etc/rc.local
 
 sudo sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config
 
