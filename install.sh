@@ -38,6 +38,8 @@ sudo sed -i '/fi/axinit /home/pi/kiosk' /etc/rc.local
 
 sudo sed -i 's/allowed_users=console/allowed_users=anybody/g' /etc/X11/Xwrapper.config
 
+sudo sed -i '/README/agpu_mem=16s' /boot/config.txt
+
 # Config spéciale HDML PI 7
 sudo sed -i '/README/alcd_rotate=2' /boot/config.txt
 
