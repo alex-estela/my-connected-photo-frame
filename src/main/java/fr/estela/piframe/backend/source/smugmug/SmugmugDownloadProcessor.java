@@ -80,7 +80,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 	    HttpResponse downloadResponse = downloadRequest.execute();
 	    String json = downloadResponse.parseAsString();
 	    downloadResponse.getContent().close();
-	    //JsonUtils.printPrettyJson(logger, json);
+	    JsonUtils.printPrettyJson(logger, json);
 	    
 		logger.debug("> Smugmug response received");
 	    
@@ -99,7 +99,7 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			return medias;
 		}
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		
 		for (Iterator<JsonNode> i1 = albumImageNode.elements(); i1.hasNext();) {
 			
@@ -110,12 +110,31 @@ public class SmugmugDownloadProcessor extends AbstractDownloadProcessor {
 			String type = fileNode.get("Format").textValue().trim().toLowerCase();
 			int remoteWidth = fileNode.get("OriginalWidth").intValue();
 			int remoteHeight = fileNode.get("OriginalHeight").intValue();
-			Date originallyCreated = dateFormat.parse(fileNode.get("Date").textValue());
 			
 			MediaEntity mediaEntity = mediaRepository.findByRemoteId(remoteId);
 			if (mediaEntity == null) mediaEntity = new MediaEntity();
 			
 			if (mediaEntity.getLastUpdated() == null || !dateFormat.format(mediaEntity.getLastUpdated()).equals(dateFormat.format(lastUpdated))) {
+
+				String metaUrlPath = fileNode.get("Uris").get("ImageMetadata").get("Uri").textValue();
+				GenericUrl metaUrl = new GenericUrl("https://api.smugmug.com" + metaUrlPath);
+			    HttpRequest metaRequest = requestFactory.buildGetRequest(metaUrl);
+			    metaRequest.setHeaders(headers);
+			    HttpResponse metaResponse = metaRequest.execute();
+			    String metaJson = metaResponse.parseAsString();
+			    metaResponse.getContent().close();
+			    JsonUtils.printPrettyJson(logger, metaJson);
+			    
+			    ObjectMapper metaMapper = new ObjectMapper();	    
+				JsonNode metaNode = metaMapper.readTree(metaJson);
+				
+				JsonNode responseMetaNode = metaNode.get("Response");				
+				JsonNode imageMetaNode = responseMetaNode.get("ImageMetadata");
+				JsonNode createdDateNode = imageMetaNode.get("DateCreated");
+				if (createdDateNode == null || createdDateNode.textValue().trim().equals("")) createdDateNode = imageMetaNode.get("DateTimeCreated");
+				if (createdDateNode == null || createdDateNode.textValue().trim().equals("")) createdDateNode = imageMetaNode.get("DateDigitized");
+				logger.debug("Found createdDateNode: " + createdDateNode.textValue());
+				Date originallyCreated = dateFormat.parse(createdDateNode.textValue().substring(0, 19));
 				
 			    GenericUrl contentUrl = new GenericUrl(fileNode.get("ArchivedUri").textValue());
 			    HttpRequest contentRequest = requestFactory.buildGetRequest(contentUrl);

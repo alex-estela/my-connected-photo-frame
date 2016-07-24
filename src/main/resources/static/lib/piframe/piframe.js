@@ -60,7 +60,7 @@ var PIFRAME = {
 						if (PIFRAME.mediaCount == 0) PIFRAME.loadMedia(0);
 			
 						PIFRAME.mediaCount++;
-						//if (PIFRAME.mediaCount > 3) break;
+						if (PIFRAME.mediaCount > 1) break;
 					}
 					
 					$(".loadingContainer").hide();				
@@ -82,12 +82,8 @@ var PIFRAME = {
 							
 							$(".mediaImg").eq(current).css("visibility", "visible");
 
-							// bugged dates coming from Smugmug
-							//var creationDate = Date.parse($(".mediaImg").eq(current).attr("creation-date").substring(0, 10)).toString("d-MMM-yyyy");
-							//console.log("creationDate = " + $(".mediaImg").eq(current).attr("creation-date").substring(0, 10));
-							//$(".mediaTooltip").html(creationDate);
-							
-							//console.log($(".mediaImg").eq(current).attr("creation-date"));
+							var creationDate = Date.parse($(".mediaImg").eq(current).attr("creation-date").substring(0, 19)).toString("d-MMM-yyyy");
+							$(".mediaTooltip").html(creationDate);
 							
 							if (current > 0) {
 								$(".mediaImg").eq(current-1).css("visibility", "hidden");
