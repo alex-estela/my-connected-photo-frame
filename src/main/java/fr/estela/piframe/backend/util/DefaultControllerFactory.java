@@ -1,7 +1,10 @@
-package io.swagger.inflector.config;
+package fr.estela.piframe.backend.util;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import io.swagger.inflector.config.ControllerFactory;
+import io.swagger.models.Operation;
 
 /**
  * Hack of Default ControllerFactory implementation
@@ -24,7 +27,8 @@ public class DefaultControllerFactory implements ControllerFactory {
 	 * @throws InstantiationException
 	 */
 	@Override
-	public Object instantiateController(Class<? extends Object> cls) throws IllegalAccessException, InstantiationException {
+	public Object instantiateController(Class<? extends Object> cls, Operation op) throws IllegalAccessException, InstantiationException {
 		return applicationContext.getBean(cls);
 	}
+
 }

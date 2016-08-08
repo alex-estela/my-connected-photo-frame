@@ -14,11 +14,9 @@ modelMappings:
   SmugmugProvider: fr.estela.piframe.backend.api.v1.model.SmugmugProvider
 
 # validatePayloads: true
-
 # exceptionMapper: io.swagger.inflector.utils.DefaultExceptionMapper
 
-# controllerFactory: io.swagger.inflector.config.DefaultControllerFactory
-# fr.estela.piframe.backend.util.SpringControllerFactory
+controllerFactoryClass: fr.estela.piframe.backend.util.DefaultControllerFactory
 
 # HTTP response code when required parameters are missing
 invalidRequestCode: 400
